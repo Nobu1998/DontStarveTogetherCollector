@@ -1,0 +1,2 @@
+# DontStarveTogetherCollector
+採取専門キャラクター
