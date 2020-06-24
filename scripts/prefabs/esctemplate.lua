@@ -5,16 +5,14 @@ local assets = {
 }
 
 -- Your character's stats
-TUNING.ESCTEMPLATE_HEALTH = 150
-TUNING.ESCTEMPLATE_HUNGER = 150
-TUNING.ESCTEMPLATE_SANITY = 200
+TUNING.ESCTEMPLATE_HEALTH = 80
+TUNING.ESCTEMPLATE_HUNGER = 230
+TUNING.ESCTEMPLATE_SANITY = 180
 
 -- Custom starting inventory
 TUNING.GAMEMODE_STARTING_ITEMS.DEFAULT.ESCTEMPLATE = {
-	"flint",
-	"flint",
-	"twigs",
-	"twigs",
+	"lucy",
+	"axe",
 }
 
 local start_inv = {}
@@ -48,7 +46,8 @@ end
 
 
 -- This initializes for both the server and client. Tags can be added here.
-local common_postinit = function(inst) 
+local common_postinit = function(inst)
+    inst:AddTag("woodcutter")
 	-- Minimap icon
 	inst.MiniMapEntity:SetIcon( "esctemplate.tex" )
 end
@@ -60,21 +59,27 @@ local master_postinit = function(inst)
 	
 	-- choose which sounds this character will play
 	inst.soundsname = "willow"
-	
+
 	-- Uncomment if "wathgrithr"(Wigfrid) or "webber" voice is used
     --inst.talker_path_override = "dontstarve_DLC001/characters/"
 	
-	-- Stats	
+	-- Stats
 	inst.components.health:SetMaxHealth(TUNING.ESCTEMPLATE_HEALTH)
 	inst.components.hunger:SetMax(TUNING.ESCTEMPLATE_HUNGER)
 	inst.components.sanity:SetMax(TUNING.ESCTEMPLATE_SANITY)
+
+    inst.components.locomotor.walkspeed = 5
+    inst.components.locomotor.runspeed = 7
 	
 	-- Damage multiplier (optional)
     inst.components.combat.damagemultiplier = 1
 	
 	-- Hunger rate (optional)
-	inst.components.hunger.hungerrate = 1 * TUNING.WILSON_HUNGER_RATE
-	
+	inst.components.hunger.hungerrate = 1 * TUNING.WILSON_HUNGER_RATE * 0.9
+
+    --敵に接近した際のSAN値減り
+    inst.components.sanity.neg_aura_mult = 1 * 1.3
+
 	inst.OnLoad = onload
     inst.OnNewSpawn = onload
 	
